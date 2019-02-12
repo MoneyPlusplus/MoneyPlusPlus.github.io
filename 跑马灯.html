@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>跑马灯</title>
+</head>
+<body>
+  <script src="lib/js/vue.js"></script>  
+  <div id="app">
+      <input type="button" value="开始" @click="begin">
+      <input type="button" value="停止" @click="stop">
+      <h4 :style="style">{{str}}</h4>
+  </div>
+  <script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            str:"北京市交通委提醒您：道路千万条，安全就一条，行车不规范，亲人两行泪",
+            timeHander:null,
+            style:{
+               
+                backgroundImage:"linear-gradient(to bottom,red,blue)",
+                backgroundClip:"text",
+                textFillColor:"#fff",
+                textAlign:"center"
+            }
+        },
+        methods: {
+           begin(){
+               if(this.timeHander!=null)return;
+               this.timeHander=setInterval(()=>{
+                    var start=this.str.substring(0,1);
+                    var end = this.str.substring(1);
+                    this.str = end+start;
+                    this.style.backgroundImage="linear-gradient(to bottom,"+this.getColor()+","+this.getColor()+")";
+               },400)
+              
+           },
+           stop(){
+                clearInterval(this.timeHander);
+                this.timeHander=null;
+           },
+           getColor(){
+               var r =Math.floor(Math.random()*256);
+               var g = Math.floor(Math.random()*256);
+               var b = Math.floor(Math.random()*256);
+               var rgb="rgb("+r+","+g+","+b+")";
+               return rgb;
+           }
+        },
+    })
+  </script>
+</body>
+</html>
